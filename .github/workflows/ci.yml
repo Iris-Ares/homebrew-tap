@@ -1,0 +1,37 @@
+name: CI
+
+# Guards the cask against both hand edits and a bad automated bump: `--online`
+# re-downloads the release asset, so a wrong `sha256` fails here rather than on
+# a user's `brew install`.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  # Upstream Homebrew changes (deprecated stanzas, new audit rules) can break a
+  # cask that nobody touched.
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+jobs:
+  audit:
+    name: audit
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install tap into Homebrew
+        run: |
+          TAP="$(brew --repository)/Library/Taps/iris-ares/homebrew-tap"
+          mkdir -p "$(dirname "$TAP")"
+          cp -R "$GITHUB_WORKSPACE" "$TAP"
+
+      - name: Style
+        run: brew style iris-ares/tap
+
+      # Deliberately not `--new`: that adds homebrew/cask submission checks
+      # (Gatekeeper signing, repo notability) which don't apply to a self-hosted
+      # tap and would fail until Spotion is notarized.
+      - name: Audit
+        run: brew audit --cask --online iris-ares/tap/spotion
