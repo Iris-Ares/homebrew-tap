@@ -3,15 +3,23 @@
 Homebrew casks for my macOS apps.
 
 ```bash
-brew tap Iris-Ares/tap
-brew install --cask spotion
+brew install --cask Iris-Ares/tap/spotion
 ```
 
-Or without tapping first:
+That one line taps this repository, trusts the cask and installs it — no separate
+`brew tap` needed.
 
-```bash
-brew install --cask iris-ares/tap/spotion
+Use the **fully-qualified** `Iris-Ares/tap/spotion` for the first install. Homebrew
+refuses to resolve a bare token like `spotion` to a third-party tap it hasn't been
+told to trust:
+
 ```
+Error: Refusing to load cask iris-ares/tap/spotion from untrusted tap iris-ares/tap.
+```
+
+Installing records the trust, so afterwards `brew info spotion`, `brew upgrade` and
+`brew uninstall --cask spotion` all work with the short name. To trust the whole tap
+up front instead, run `brew trust iris-ares/tap`.
 
 ## Casks
 
@@ -31,7 +39,7 @@ the first launch. Open **System Settings → Privacy & Security**, find the
 `make install` — let Homebrew take it over instead of erroring out:
 
 ```bash
-brew install --cask --adopt spotion
+brew install --cask --adopt Iris-Ares/tap/spotion
 ```
 
 **`brew upgrade` and in-app updates coexist.** The cask is marked `auto_updates true`,

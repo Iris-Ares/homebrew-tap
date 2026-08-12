@@ -33,5 +33,8 @@ jobs:
       # Deliberately not `--new`: that adds homebrew/cask submission checks
       # (Gatekeeper signing, repo notability) which don't apply to a self-hosted
       # tap and would fail until Spotion is notarized.
+      #
+      # The token must stay fully qualified — Homebrew refuses to resolve a bare
+      # `spotion` from a tap it hasn't been told to trust.
       - name: Audit
         run: brew audit --cask --online iris-ares/tap/spotion
