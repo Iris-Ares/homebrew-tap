@@ -1,6 +1,6 @@
 cask "spotion" do
-  version "0.3.0"
-  sha256 "8cbe839ae62dee2b69a07fe252bda62b03f2def07c2f05378a0b9433b6d6d5b0"
+  version "0.3.1"
+  sha256 "8763b5c1b7f7999bd66fcc5d7db425fbf469c75eb4c66ec80f6cfa3149e02650"
 
   url "https://github.com/Iris-Ares/Spotion/releases/download/v#{version}/Spotion-#{version}.zip"
   name "Spotion"
